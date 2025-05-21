@@ -1,42 +1,35 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Autentificare - CAM Real Estate</title>
+  <title>Panou utilizator</title>
   <link rel="stylesheet" href="../assets/style.css">
-  <link rel="stylesheet" href="../assets/login.css">
+  <link rel="stylesheet" href="../assets/dashboard.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
 <header id="navbar">
-  <div class="logo">CAM Real Estate</div>
+  <div class="logo">DASHBOARD | CAM Real Estate</div>
   <nav>
     <ul>
-      <li><a href="../main/index.html">Acasă</a></li>
+      <li><a href="#">Acasă</a></li>
+      <!-- urmeaza sa fie implementat -->
+      <li><a href="logout.php">Delogare</a></li>
     </ul>
   </nav>
 </header>
 
-<main class="login-container">
-  <div class="login-box">
-    <h2>Autentificare</h2>
-    <form id="loginForm" action="login.php" method="POST">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Parolă</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      <button type="submit" class="login-btn">Intră în cont</button>
-    </form>
-    <div class="login-links">
-      <a href="register.html">Înregistrează-te</a>
-    </div>
+<section class="hero">
+  <h1 id="userInfo"></h1>
+</section>
+
+<section class="apartments">
+  <h2 class="titlu-chirii">Anunțurile tale</h2>
+  <div class="apartment-list" id="myListings">
   </div>
-</main>
+</section>
 
 <footer class="site-footer">
   <div class="footer-container">
@@ -47,10 +40,10 @@
     <div class="footer-links">
       <h3>Linkuri rapide</h3>
       <ul>
-        <li><a href="../main/index.html">Acasă</a></li>
-        <li><a href="#">Apartamente</a></li>
-        <li><a href="#">Case</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="#">Acasă</a></li>
+        <li><a href="#">Contul meu</a></li>
+        <li><a href="#">Adaugă anunț</a></li>
+        <li><a href="#">Ajutor</a></li>
       </ul>
     </div>
     <div class="footer-contact">
@@ -71,6 +64,7 @@
   </div>
 </footer>
 
-  <script src="../assets/login.js" defer></script>
+<script src="../assets/dashboard.js"></script>
+
 </body>
 </html>
