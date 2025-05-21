@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->close();
         exit;
     } else {
-        $stmt->bind_result($id, $hashed_password, $nume, $prenume);
+        $stmt->bind_result($id, $hashed_password);
         $stmt->fetch();
 
         // Verifica parola
