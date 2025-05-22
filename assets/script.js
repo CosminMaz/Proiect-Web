@@ -16,7 +16,7 @@ if (loginForm) {
 
         const formData = new FormData(this);
 
-        const response = await fetch("../main/login.php", {
+        const response = await fetch("../main/api/login.php", {
             method: "POST",
             body: formData
         });
