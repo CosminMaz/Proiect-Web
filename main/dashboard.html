@@ -6,7 +6,29 @@
   <title>Panou utilizator</title>
   <link rel="stylesheet" href="../assets/style.css">
   <link rel="stylesheet" href="../assets/dashboard.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    #map {
+      height: 500px;
+      margin: 2rem auto;
+      max-width: 95%;
+      border-radius: 10px;
+      border: 2px solid #ccc;
+    }
+
+    .map-controls {
+      text-align: center;
+      margin: 1rem;
+    }
+
+    .map-controls input,
+    .map-controls button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
 
@@ -29,6 +51,16 @@
   <div class="apartment-list" id="myListings">
   </div>
 </section>
+
+<!-- Filtru și Hartă -->
+<div class="map-controls">
+  <form id="filterForm">
+    <label for="priceRange">Preț maxim (€):</label>
+    <input type="number" id="priceRange" name="priceRange" value="100000" min="0"/>
+    <button type="submit">Filtrează</button>
+  </form>
+</div>
+<div id="map"></div>
 
 <footer class="site-footer">
   <div class="footer-container">
@@ -63,7 +95,69 @@
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="../assets/dashboard.js"></script>
+<script>
+  const map = L.map('map').setView([45.9432, 24.9668], 6); // România
+
+  const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const properties = [
+    { lat: 44.4268, lng: 26.1025, price: 95000, description: "Apartament 2 camere, București" },
+    { lat: 46.7704, lng: 23.5914, price: 120000, description: "Casă în Cluj" },
+    { lat: 47.1585, lng: 27.6014, price: 85000, description: "Garsonieră în Iași" }
+  ];
+
+  let propertyMarkers = [];
+
+  function updateMarkers(maxPrice) {
+    propertyMarkers.forEach(marker => map.removeLayer(marker));
+    propertyMarkers = [];
+
+    properties.forEach(p => {
+      if (p.price <= maxPrice) {
+        const marker = L.marker([p.lat, p.lng]).addTo(map);
+        marker.bindPopup(`<b>${p.description}</b><br>Preț: €${p.price}`);
+        propertyMarkers.push(marker);
+      }
+    });
+  }
+
+  updateMarkers(100000);
+
+  document.getElementById('filterForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const maxPrice = parseInt(document.getElementById('priceRange').value, 10);
+    updateMarkers(maxPrice);
+  });
+
+  // Geolocalizare
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+
+      const userMarker = L.marker([lat, lng], { color: 'green' }).addTo(map);
+      userMarker.bindPopup("Locația ta curentă").openPopup();
+      map.setView([lat, lng], 13);
+
+      const nearby = properties.filter(p => map.distance([lat, lng], [p.lat, p.lng]) < 20000);
+      nearby.forEach(p => {
+        const marker = L.circleMarker([p.lat, p.lng], { color: 'red' }).addTo(map);
+        marker.bindPopup(`<b>${p.description}</b><br>Preț: €${p.price}<br><i>(în apropiere)</i>`);
+      });
+    });
+  }
+
+  // Strat: parcări
+  const parkingLayer = L.layerGroup();
+  L.circle([44.4325, 26.1039], { radius: 100, color: 'blue' }).bindPopup("Parcare Piața Victoriei").addTo(parkingLayer);
+  L.circle([46.7712, 23.6236], { radius: 100, color: 'blue' }).bindPopup("Parcare Cluj Central").addTo(parkingLayer);
+
+  L.control.layers({ "OpenStreetMap": osmLayer }, { "Parcări": parkingLayer }).addTo(map);
+</script>
 
 </body>
 </html>
