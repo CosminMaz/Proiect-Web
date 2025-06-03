@@ -25,7 +25,7 @@ if (loginForm) {
 
         if (response.ok) {
             localStorage.setItem("token", data.token);
-            window.location.href = "dashboard.html"; // sau calea corecta
+            window.location.href = "../main/dashboard/dashboard.html";
         } else {
             alert(data.error || "Eroare la autentificare");
         }

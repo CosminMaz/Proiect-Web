@@ -3,7 +3,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
 
     const formData = new FormData(this);
 
-    fetch('../main/api/register.php', {
+    fetch('../api/register.php', {
         method: 'POST',
         body: formData
     })
@@ -11,7 +11,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
         const text = await response.text();
 
         if (response.ok) {
-            window.location.href = '../main/login.html';
+            window.location.href = '../login/login.html';
         } else {
             alert(text); 
         }

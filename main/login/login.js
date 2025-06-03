@@ -7,7 +7,7 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
     const formData = new FormData(e.target);
 
     try {
-        const res = await fetch('../main/api/login.php', {
+        const res = await fetch('../api/login.php', {
             method: 'POST',
             body: formData,
         });
@@ -19,7 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
         if (res.ok) {
             alert("Autentificare reusita! Se face redirect...");
             localStorage.setItem('token', json.token);
-            window.location.href = '../main/dashboard.html';
+            window.location.href = '../dashboard/dashboard.html';
         } else {
             alert("Autentificare esuata: " + (json.error || 'Eroare necunoscuta'));
         }

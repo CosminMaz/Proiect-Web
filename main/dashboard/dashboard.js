@@ -3,11 +3,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.log("Token from localStorage:", token);
 
     if (!token) {
-        window.location.href = "login.html";
+        window.location.href = "../login/login.html";
         return;
     }
 
-    const response = await fetch("../main/api/dashboard_data.php", {
+    const response = await fetch("../api/dashboard_data.php", {
         headers: {
             "Authorization": `Bearer ${token}`
         }
@@ -20,7 +20,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     } else {
         alert("Acces neautorizat. Te redirectionam la login.");
         localStorage.removeItem("token");
-        window.location.href = "login.html";
+        window.location.href = "../login/login.html";
     }
 
     if("geolocation" in navigator) {
@@ -41,6 +41,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("logoutBtn").addEventListener("click", (e) => {
         e.preventDefault();
         localStorage.removeItem("token");
-        window.location.href = "../main/index.html"
+        window.location.href = "../index.html"
     })
 });
