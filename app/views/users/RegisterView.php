@@ -31,9 +31,14 @@ If the user is authenticated and the token is valid, it displays the dashboard p
         <h2>Creează un cont</h2>
         <form action="<?php echo URLROOT; ?>/users/register" method="post">
             <div class="form-group">
-                <label for="name">Nume: <sup>*</sup></label>
-                <input type="text" name="name" class="<?php echo (!empty($data['name_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['name']; ?>">
-                <span class="invalid-feedback"><?php echo $data['name_err']; ?></span>
+                <label for="nume">Nume: <sup>*</sup></label>
+                <input type="text" name="nume" class="<?php echo (!empty($data['nume_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['nume']; ?>">
+                <span class="invalid-feedback"><?php echo $data['nume_err']; ?></span>
+            </div>
+            <div class="form-group">
+                <label for="prenume">Prenume: <sup>*</sup></label>
+                <input type="text" name="prenume" class="<?php echo (!empty($data['prenume_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['prenume']; ?>">
+                <span class="invalid-feedback"><?php echo $data['prenume_err']; ?></span>
             </div>
             <div class="form-group">
                 <label for="email">Email: <sup>*</sup></label>

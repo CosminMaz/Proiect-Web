@@ -15,6 +15,7 @@ If the user is authenticated and the token is valid, it displays the dashboard p
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/login.css">
+    <script src="/public/assets/login-check.js"></script>
 </head>
 <body>
     <header id="navbar">

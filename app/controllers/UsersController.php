@@ -203,26 +203,8 @@ class UsersController extends Controller {
     }
 
     public function logout() {
-        // Clear the token cookie
-        setcookie('token', '', time() - 3600, '/');
-        
-        // Clear any existing headers
-        if (headers_sent()) {
-            header_remove();
-        }
-        
-        // Set headers for JSON response
-        header('Content-Type: application/json');
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization');
-        
-        // Return success response
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'Logged out successfully',
-            'redirect' => URLROOT . '/users/login'
-        ]);
+        // Remove token from localStorage
+        echo '<script>localStorage.removeItem("token"); window.location.href = "' . URLROOT . '/users/login";</script>';
         exit();
     }
 } 

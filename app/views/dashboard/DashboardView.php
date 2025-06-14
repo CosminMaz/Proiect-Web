@@ -7,20 +7,29 @@
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header id="navbar">
         <div class="logo">CAM Real Estate</div>
         <nav>
             <ul>
-                <li><a href="<?php echo URLROOT; ?>">Acasă</a></li>
                 <li><a href="#" id="logoutBtn">Deconectare</a></li>
             </ul>
         </nav>
     </header>
         
     <div class="dashboard-container">
+        <div class="greeting">Salutare, <?php echo isset($data['user']->nume) ? htmlspecialchars($data['user']->nume) : 'Utilizator'; ?></div>
         
+        <div class="dashboard-actions">
+            <a href="<?php echo URLROOT; ?>/properties/add" class="action-button">
+                <i class="fas fa-plus"></i> Adaugă Proprietate
+            </a>
+            <a href="<?php echo URLROOT; ?>/properties/search" class="action-button">
+                <i class="fas fa-search"></i> Caută Proprietăți
+            </a>
+        </div>
     </div>
  
     <script>
