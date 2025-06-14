@@ -1,7 +1,3 @@
-<!--
-This is the base controller class.
-It contains methods for loading models and views.
--->
 <?php
 class Controller {
     // Load model

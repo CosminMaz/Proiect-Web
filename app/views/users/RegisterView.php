@@ -1,5 +1,10 @@
 <!--
 This is the register page.
+It is used to register a new user.
+It is used to display the register page.
+It is used to check if the user is authenticated and if the token is valid.
+If the user is not authenticated or the token is invalid, it redirects to the login page.
+If the user is authenticated and the token is valid, it displays the dashboard page.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -9,75 +14,7 @@ This is the register page.
     <title>Register - CAM Real Estate</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        .form-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            margin: 120px auto;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #1d3557;
-            font-weight: 500;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #457b9d;
-        }
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: #457b9d;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background: #1d3557;
-        }
-        .form-container h2 {
-            color: #1d3557;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-container p {
-            text-align: center;
-            margin-top: 20px;
-            color: #1d3557;
-        }
-        .form-container a {
-            color: #457b9d;
-            text-decoration: none;
-        }
-        .form-container a:hover {
-            text-decoration: underline;
-        }
-        .invalid-feedback {
-            color: #e63946;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        .is-invalid {
-            border-color: #e63946 !important;
-        }
-    </style>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/register.css">
 </head>
 <body>
     <header id="navbar">
@@ -122,4 +59,4 @@ This is the register page.
 
     <script src="<?php echo URLROOT; ?>/public/assets/script.js"></script>
 </body>
-</html> 
+</html>

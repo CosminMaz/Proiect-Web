@@ -1,7 +1,3 @@
-<!--
-This is the main application class.
-It handles the routing and instantiation of controllers and methods.
--->
 <?php
 class App {
     // Default controller and method (and its parameters)

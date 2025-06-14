@@ -1,3 +1,11 @@
+<!--
+This is the login page.
+It is used to log the user in.
+It is used to display the login page.
+It is used to check if the user is authenticated and if the token is valid.
+If the user is not authenticated or the token is invalid, it redirects to the login page.
+If the user is authenticated and the token is valid, it displays the dashboard page.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,75 +14,7 @@
     <title>Login - CAM Real Estate</title>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        .form-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            margin: 120px auto;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #1d3557;
-            font-weight: 500;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #457b9d;
-        }
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: #457b9d;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background: #1d3557;
-        }
-        .form-container h2 {
-            color: #1d3557;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-container p {
-            text-align: center;
-            margin-top: 20px;
-            color: #1d3557;
-        }
-        .form-container a {
-            color: #457b9d;
-            text-decoration: none;
-        }
-        .form-container a:hover {
-            text-decoration: underline;
-        }
-        .invalid-feedback {
-            color: #e63946;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        .is-invalid {
-            border-color: #e63946 !important;
-        }
-    </style>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/login.css">
 </head>
 <body>
     <header id="navbar">
@@ -89,24 +29,77 @@
 
     <div class="form-container">
         <h2>Loghează-te</h2>
-        <form action="<?php echo URLROOT; ?>/users/login" method="post">
+        <form id="loginForm">
             <div class="form-group">
                 <label for="email">Email: <sup>*</sup></label>
-                <input type="email" name="email" class="<?php echo (!empty($data['email_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['email']; ?>">
+                <input type="email" name="email" id="email" class="<?php echo (!empty($data['email_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['email']; ?>">
                 <span class="invalid-feedback"><?php echo $data['email_err']; ?></span>
             </div>
             <div class="form-group">
                 <label for="password">Parolă: <sup>*</sup></label>
-                <input type="password" name="password" class="<?php echo (!empty($data['password_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['password']; ?>">
+                <input type="password" name="password" id="password" class="<?php echo (!empty($data['password_err'])) ? 'is-invalid' : ''; ?>" value="<?php echo $data['password']; ?>">
                 <span class="invalid-feedback"><?php echo $data['password_err']; ?></span>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn">Loghează-te</button>
             </div>
+            <div id="error-message"></div>
             <p>Nu ai cont? <a href="<?php echo URLROOT; ?>/users/register">Înregistrează-te</a></p>
         </form>
     </div>
 
-    <script src="<?php echo URLROOT; ?>/public/assets/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            const loginForm = document.getElementById('loginForm');
+            console.log('Login form:', loginForm);
+
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log('Form submitted');
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                console.log('Email:', email);
+                console.log('Password:', password);
+                
+                try {
+                    const response = await fetch('<?php echo URLROOT; ?>/users/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    });
+                    
+                    console.log('Response received:', response);
+                    
+                    const data = await response.json();
+                    console.log('Data received:', data);
+                    
+                    if (data.status === 'success') {
+                        console.log('Login successful, storing token and redirecting');
+                        localStorage.removeItem('jwt_token'); // Remove old key if it exists
+                        localStorage.setItem('token', data.token);
+                        
+                        // Redirect to dashboard
+                        window.location.href = data.redirect;
+                    } else {
+                        console.log('Login failed:', data.message);
+                        document.getElementById('error-message').textContent = data.message;
+                        document.getElementById('error-message').style.display = 'block';
+                    }
+                } catch (error) {
+                    console.error('Error during login:', error);
+                    document.getElementById('error-message').textContent = 'A apărut o eroare. Vă rugăm să încercați din nou.';
+                    document.getElementById('error-message').style.display = 'block';
+                }
+            });
+        });
+    </script>
 </body>
-</html> 
+</html>

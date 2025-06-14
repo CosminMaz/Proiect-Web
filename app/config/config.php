@@ -1,7 +1,3 @@
-<!--
-This is the configuration file.
-It contains the database credentials and the application settings.
--->
 <?php
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');

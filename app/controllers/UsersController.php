@@ -1,4 +1,6 @@
 <?php
+require_once 'app/helpers/jwt_helper.php';
+
 class UsersController extends Controller {
     private $userModel;
 
@@ -12,11 +14,13 @@ class UsersController extends Controller {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
-                'name' => trim($_POST['name']),
+                'nume' => trim($_POST['nume']),
+                'prenume' => trim($_POST['prenume']),
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'confirm_password' => trim($_POST['confirm_password']),
-                'name_err' => '',
+                'nume_err' => '',
+                'prenume_err' => '',
                 'email_err' => '',
                 'password_err' => '',
                 'confirm_password_err' => ''
@@ -31,9 +35,14 @@ class UsersController extends Controller {
                 }
             }
 
-            // Validate name
-            if(empty($data['name'])) {
-                $data['name_err'] = 'Please enter name';
+            // Validate nume
+            if(empty($data['nume'])) {
+                $data['nume_err'] = 'Please enter nume';
+            }
+
+            // Validate prenume
+            if(empty($data['prenume'])) {
+                $data['prenume_err'] = 'Please enter prenume';
             }
 
             // Validate password
@@ -53,7 +62,7 @@ class UsersController extends Controller {
             }
 
             // Make sure errors are empty
-            if(empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
+            if(empty($data['email_err']) && empty($data['nume_err']) && empty($data['prenume_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
                 // Validated
                 if($this->userModel->register($data)) {
                     flash('register_success', 'You are registered and can log in');
@@ -69,11 +78,13 @@ class UsersController extends Controller {
         } else {
             // Init data
             $data = [
-                'name' => '',
+                'nume' => '',
+                'prenume' => '',
                 'email' => '',
                 'password' => '',
                 'confirm_password' => '',
-                'name_err' => '',
+                'nume_err' => '',
+                'prenume_err' => '',
                 'email_err' => '',
                 'password_err' => '',
                 'confirm_password_err' => ''
@@ -86,55 +97,96 @@ class UsersController extends Controller {
 
     public function login() {
         if($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // Get JSON input
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, true);
 
-            $data = [
-                'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'email_err' => '',
-                'password_err' => ''
-            ];
+            if (!$data) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Invalid JSON input'
+                ]);
+                exit();
+            }
+
+            $email = trim($data['email']);
+            $password = trim($data['password']);
 
             // Validate email
-            if(empty($data['email'])) {
-                $data['email_err'] = 'Please enter email';
+            if(empty($email)) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Please enter email'
+                ]);
+                exit();
             }
 
             // Validate password
-            if(empty($data['password'])) {
-                $data['password_err'] = 'Please enter password';
+            if(empty($password)) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Please enter password'
+                ]);
+                exit();
             }
 
             // Check for user/email
-            if($this->userModel->findUserByEmail($data['email'])) {
+            if($this->userModel->findUserByEmail($email)) {
                 // User found
             } else {
-                $data['email_err'] = 'No user found';
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'No user found'
+                ]);
+                exit();
             }
 
-            // Make sure errors are empty
-            if(empty($data['email_err']) && empty($data['password_err'])) {
-                // Validated
-                // Check and set logged in user
-                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+            // Check and set logged in user
+            $loggedInUser = $this->userModel->login($email, $password);
 
-                if($loggedInUser) {
-                    // Create Session
-                    $_SESSION['user_id'] = $loggedInUser->id;
-                    $_SESSION['user_email'] = $loggedInUser->email;
-                    $_SESSION['user_name'] = $loggedInUser->name;
-                    
-                    flash('login_success', 'You are now logged in');
-                    header('Location: ' . URLROOT . '/dashboard');
-                    exit();
-                } else {
-                    $data['password_err'] = 'Password incorrect';
-                    $this->view('users/LoginView', $data);
-                }
+            if($loggedInUser) {
+                // Generate JWT token
+                $token = JwtHelper::generateToken($loggedInUser);
+                
+                // Set headers
+                header('Content-Type: application/json');
+                header('Access-Control-Allow-Origin: *');
+                header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+                header('Access-Control-Allow-Headers: Content-Type, Authorization');
+                
+                // Set token in response header
+                header('Authorization: Bearer ' . $token);
+                
+                // Set token in cookie
+                setcookie('token', $token, time() + (86400 * 30), "/"); // 30 days
+                
+                // Return success response with redirect URL
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Login successful',
+                    'token' => $token,
+                    'redirect' => URLROOT . '/dashboard',
+                    'user' => [
+                        'id' => $loggedInUser->id,
+                        'email' => $loggedInUser->email,
+                        'nume' => $loggedInUser->nume,
+                        'prenume' => $loggedInUser->prenume
+                    ]
+                ];
+                
+                echo json_encode($response);
+                exit();
             } else {
-                // Load view with errors
-                $this->view('users/LoginView', $data);
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Password incorrect'
+                ]);
+                exit();
             }
         } else {
             // Init data
@@ -151,13 +203,26 @@ class UsersController extends Controller {
     }
 
     public function logout() {
-        unset($_SESSION['user_id']);
-        unset($_SESSION['user_email']);
-        unset($_SESSION['user_name']);
-        session_destroy();
+        // Clear the token cookie
+        setcookie('token', '', time() - 3600, '/');
         
-        flash('logout_success', 'You are now logged out');
-        header('location: ' . URLROOT . '/users/login');
+        // Clear any existing headers
+        if (headers_sent()) {
+            header_remove();
+        }
+        
+        // Set headers for JSON response
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization');
+        
+        // Return success response
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Logged out successfully',
+            'redirect' => URLROOT . '/users/login'
+        ]);
         exit();
     }
 } 

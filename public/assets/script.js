@@ -7,27 +7,3 @@ window.addEventListener('scroll', function () {
         navbar.classList.remove('scrolled');
     }
 });
-
-// Login cu JWT
-const loginForm = document.getElementById("loginForm");
-if (loginForm) {
-    loginForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        const formData = new FormData(this);
-
-        const response = await fetch("../main/api/login.php", {
-            method: "POST",
-            body: formData
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            localStorage.setItem("token", data.token);
-            window.location.href = "../main/dashboard/dashboard.html";
-        } else {
-            alert(data.error || "Eroare la autentificare");
-        }
-    });
-}

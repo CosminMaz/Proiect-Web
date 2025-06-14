@@ -22,14 +22,9 @@ class User {
     }
 
     public function register($data) {
-        // Split the name into nume (last name) and prenume (first name)
-        $fullName = explode(' ', $data['name']);
-        $prenume = $fullName[0];
-        $nume = isset($fullName[1]) ? $fullName[1] : ''; // If no last name provided, use empty string
-
         $this->db->query('INSERT INTO users (nume, prenume, email, password) VALUES(:nume, :prenume, :email, :password)');
-        $this->db->bind(':nume', $nume);
-        $this->db->bind(':prenume', $prenume);
+        $this->db->bind(':nume', $data['nume']);
+        $this->db->bind(':prenume', $data['prenume']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', password_hash($data['password'], PASSWORD_DEFAULT));
 

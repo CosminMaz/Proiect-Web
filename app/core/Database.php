@@ -1,32 +1,28 @@
-<!--
-This is the database class.
-It handles the database connection and queries.
--->
 <?php
 class Database {
-    // Database credentials
+    //Database credentials
     private $host = DB_HOST;
     private $user = DB_USER;
     private $pass = DB_PASS;
     private $dbname = DB_NAME;
 
-    // Database handler
+    //Database handler
     private $dbh;
-    // Statement
+    //Statement
     private $stmt;
     // Error
     private $error;
 
-    // Constructor
+    //Constructor
     public function __construct() {
-        // Data Source Name
+        //Data Source Name
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
-        // Options
+        //Options
         $options = array(
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );
-        // Try to connect to the database
+        //Try to connect to the database
         try {
             $this->dbh = new PDO($dsn, $this->user, $this->pass, $options); // Create a new PDO instance
         } catch(PDOException $e) {
@@ -35,12 +31,12 @@ class Database {
         }
     }
 
-    // Prepare the query
+    //Prepare the query
     public function query($sql) {
         $this->stmt = $this->dbh->prepare($sql); 
     }
 
-    // Bind the values
+    //Bind the values
     public function bind($param, $value, $type = null) {
         if(is_null($type)) {
             switch(true) {
@@ -60,7 +56,7 @@ class Database {
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    // Execute the query
+    //Execute the query
     public function execute() {
         return $this->stmt->execute();
     }
