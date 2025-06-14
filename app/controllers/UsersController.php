@@ -203,8 +203,21 @@ class UsersController extends Controller {
     }
 
     public function logout() {
-        // Remove token from localStorage
-        echo '<script>localStorage.removeItem("token"); window.location.href = "' . URLROOT . '/users/login";</script>';
+        // Set headers for JSON response
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+        // Clear the token cookie
+        setcookie('token', '', time() - 3600, '/');
+
+        // Return success response
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Logout successful',
+            'redirect' => URLROOT . '/users/login'
+        ]);
         exit();
     }
 } 

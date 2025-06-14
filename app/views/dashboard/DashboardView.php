@@ -54,6 +54,21 @@
             };
         }
 
+        // Get user's location when dashboard loads
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    console.log('%c Latitudine: ' + position.coords.latitude, 'color: #4CAF50; font-size: 14px; font-weight: bold;');
+                    console.log('%c Longitudine: ' + position.coords.longitude, 'color: #4CAF50; font-size: 14px; font-weight: bold;');
+                },
+                function(error) {
+                    console.error('Eroare la obținerea locației:', error.message);
+                }
+            );
+        } else {
+            console.log('Geolocation nu este suportat de acest browser.');
+        }
+
         // Handle logout
         document.getElementById('logoutBtn').addEventListener('click', async function(e) {
             e.preventDefault();
@@ -72,6 +87,10 @@
                 if (data.status === 'success') {
                     // Clear local storage
                     localStorage.removeItem('token');
+                    localStorage.removeItem('jwt_token');
+                    
+                    // Clear any cookies
+                    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                     
                     // Redirect to login page
                     window.location.href = data.redirect;
@@ -80,6 +99,11 @@
                 }
             } catch (error) {
                 console.error('Error during logout:', error);
+                // Even if there's an error, try to clear storage and redirect
+                localStorage.removeItem('token');
+                localStorage.removeItem('jwt_token');
+                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                window.location.href = '<?php echo URLROOT; ?>/users/login';
             }
         });
     </script>

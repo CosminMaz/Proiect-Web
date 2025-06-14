@@ -15,7 +15,6 @@ If the user is authenticated and the token is valid, it displays the dashboard p
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/login.css">
-    <script src="/public/assets/login-check.js"></script>
 </head>
 <body>
     <header id="navbar">
@@ -87,8 +86,25 @@ If the user is authenticated and the token is valid, it displays the dashboard p
                         localStorage.removeItem('jwt_token'); // Remove old key if it exists
                         localStorage.setItem('token', data.token);
                         
-                        // Redirect to dashboard
-                        window.location.href = data.redirect;
+                        // Get user's location
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(
+                                function(position) {
+                                    console.log('%c Latitudine: ' + position.coords.latitude, 'color: #4CAF50; font-size: 14px; font-weight: bold;');
+                                    console.log('%c Longitudine: ' + position.coords.longitude, 'color: #4CAF50; font-size: 14px; font-weight: bold;');
+                                    // Redirect after getting position
+                                    window.location.href = data.redirect;
+                                },
+                                function(error) {
+                                    console.error('Eroare la obținerea locației:', error.message);
+                                    // Redirect even if there's an error
+                                    window.location.href = data.redirect;
+                                }
+                            );
+                        } else {
+                            console.log('Geolocation nu este suportat de acest browser.');
+                            window.location.href = data.redirect;
+                        }
                     } else {
                         console.log('Login failed:', data.message);
                         document.getElementById('error-message').textContent = data.message;
