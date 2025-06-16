@@ -68,10 +68,5 @@ class Property {
             return false;
         }
     }
-
-    public function getAllProperties() {
-        $this->db->query('SELECT * FROM properties');
-        return $this->db->resultSet();
-    }
     
 } 
