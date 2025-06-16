@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
     <header id="navbar">
@@ -31,7 +32,8 @@
             </a>
         </div>
     </div>
- 
+    <div id="map" style="width: 100%; height: 400px; margin: 30px auto 0 auto; max-width: 900px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Ensure old token key is removed
         localStorage.removeItem('jwt_token');
@@ -53,6 +55,48 @@
                 return originalFetch(resource, config);
             };
         }
+
+        // OpenStreetMap + Leaflet map cu marcaje pentru proprietăți
+        document.addEventListener('DOMContentLoaded', function() {
+            var properties = <?php echo json_encode($data['properties']); ?>;
+            var map;
+            function addMarkers(map, properties) {
+                properties.forEach(function(prop) {
+                    if (prop.latitude && prop.longitude) {
+                        L.marker([prop.latitude, prop.longitude]).addTo(map)
+                            .bindPopup('<b>' + prop.title + '</b>');
+                    }
+                });
+            }
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    map = L.map('map').setView([lat, lng], 13);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+                    L.marker([lat, lng]).addTo(map)
+                        .bindPopup('Locația ta curentă').openPopup();
+                    addMarkers(map, properties);
+                }, function(error) {
+                    map = L.map('map').setView([45.9432, 24.9668], 6); // România
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        maxZoom: 19,
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+                    addMarkers(map, properties);
+                });
+            } else {
+                map = L.map('map').setView([45.9432, 24.9668], 6); // România
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+                addMarkers(map, properties);
+            }
+        });
 
         // Get user's location when dashboard loads
         if (navigator.geolocation) {
