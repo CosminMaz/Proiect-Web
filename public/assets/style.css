@@ -334,5 +334,38 @@ nav ul li a {
     }
 }
 
+/* Flash Messages */
+.alert {
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.alert-success {
+    background: rgba(46, 213, 115, 0.2);
+    color: #2ed573;
+    border: 1px solid #2ed573;
+}
+
+.alert-danger {
+    background: rgba(255, 71, 87, 0.2);
+    color: #ff4757;
+    border: 1px solid #ff4757;
+}
+
+.alert-warning {
+    background: rgba(255, 159, 67, 0.2);
+    color: #ff9f43;
+    border: 1px solid #ff9f43;
+}
+
+.alert-info {
+    background: rgba(45, 152, 218, 0.2);
+    color: #2d98da;
+    border: 1px solid #2d98da;
+}
+
 
 
