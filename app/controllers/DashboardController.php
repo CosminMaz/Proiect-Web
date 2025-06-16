@@ -52,11 +52,13 @@ class DashboardController extends Controller {
             exit();
         }
         
+        $properties = $this->propertyModel->getAllPropertiesLatLng();
         $data = [
             'title' => 'Dashboard',
-            'user' => $decoded->user
+            'user' => $decoded->user,
+            'properties' => $properties
         ];
 
         $this->view('dashboard/DashboardView', $data);
     }
-} 
+}

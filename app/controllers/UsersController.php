@@ -1,5 +1,6 @@
 <?php
 require_once 'app/helpers/jwt_helper.php';
+require_once 'app/helpers/flash_helper.php';
 
 class UsersController extends Controller {
     private $userModel;
