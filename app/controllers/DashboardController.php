@@ -52,13 +52,26 @@ class DashboardController extends Controller {
             exit();
         }
         
-        $properties = $this->propertyModel->getAllPropertiesLatLng();
+        $user = $decoded->user;
+        $properties = $user->role === 'admin' ? $this->propertyModel->getAllProperties() : $this->propertyModel->getAllPropertiesLatLng();
         $data = [
-            'title' => 'Dashboard',
-            'user' => $decoded->user,
+            'title' => $user->role === 'admin' ? 'Admin Dashboard' : 'Dashboard',
+            'user' => $user,
             'properties' => $properties
         ];
 
-        $this->view('dashboard/DashboardView', $data);
+        if ($user->role === 'admin') {
+            $userModel = $this->model('User');
+            $data['users'] = $this->getAllUsers($userModel);
+            $this->view('dashboard/AdminDashboardView', $data);
+        } else {
+            $this->view('dashboard/DashboardView', $data);
+        }
+    }
+
+    private function getAllUsers($userModel) {
+        $this->db = new Database;
+        $this->db->query('SELECT id, nume, prenume, email, role FROM users');
+        return $this->db->resultSet();
     }
 }

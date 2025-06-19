@@ -18,7 +18,8 @@ class JwtHelper {
                 "id" => $userData->id,
                 "email" => $userData->email,
                 "nume" => $userData->nume,
-                "prenume" => $userData->prenume
+                "prenume" => $userData->prenume,
+                "role" => isset($userData->role) ? $userData->role : 'user'
             )
         );
 
@@ -48,4 +49,4 @@ class JwtHelper {
         }
         return null;
     }
-} 
+}

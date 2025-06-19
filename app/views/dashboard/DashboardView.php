@@ -81,7 +81,7 @@
                         .bindPopup('Locația ta curentă').openPopup();
                     addMarkers(map, properties);
                 }, function(error) {
-                    map = L.map('map').setView([45.9432, 24.9668], 6); // România
+                    map = L.map('map').setView([45.9432, 24.9668], 6); 
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         maxZoom: 19,
                         attribution: '© OpenStreetMap contributors'
@@ -89,7 +89,7 @@
                     addMarkers(map, properties);
                 });
             } else {
-                map = L.map('map').setView([45.9432, 24.9668], 6); // România
+                map = L.map('map').setView([45.9432, 24.9668], 6); 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '© OpenStreetMap contributors'
@@ -98,7 +98,7 @@
             }
         });
 
-        // Get user's location when dashboard loads
+        // Get users location when dashboard loads
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
