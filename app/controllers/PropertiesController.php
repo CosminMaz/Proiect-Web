@@ -168,6 +168,60 @@ class PropertiesController extends Controller {
         }
     }
 
+    public function index() {
+        // Redirect to search as default action for properties
+        header('Location: ' . URLROOT . '/properties/search');
+        exit();
+    }
+
+    public function export($format = 'xml') {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            // Get token from header or cookie
+            $token = JwtHelper::getTokenFromHeader();
+            if (!$token && isset($_COOKIE['token'])) {
+                $token = $_COOKIE['token'];
+            }
+            $decoded = JwtHelper::validateToken($token);
+
+            // Check if user is admin
+            if ($decoded && isset($decoded->user->role) && $decoded->user->role === 'admin') {
+                if ($format === 'xml') {
+                    $properties = $this->propertyModel->getAllProperties();
+                    $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
+                    $xml .= '<properties>' . PHP_EOL;
+                    foreach ($properties as $prop) {
+                        $xml .= '    <property>' . PHP_EOL;
+                        $xml .= '        <id>' . htmlspecialchars($prop->id) . '</id>' . PHP_EOL;
+                        $xml .= '        <title>' . htmlspecialchars($prop->title) . '</title>' . PHP_EOL;
+                        $xml .= '        <description>' . htmlspecialchars($prop->description) . '</description>' . PHP_EOL;
+                        if ($prop->latitude) {
+                            $xml .= '        <latitude>' . htmlspecialchars($prop->latitude) . '</latitude>' . PHP_EOL;
+                        }
+                        if ($prop->longitude) {
+                            $xml .= '        <longitude>' . htmlspecialchars($prop->longitude) . '</longitude>' . PHP_EOL;
+                        }
+                        $xml .= '    </property>' . PHP_EOL;
+                    }
+                    $xml .= '</properties>';
+                    
+                    header('Content-Type: application/xml');
+                    header('Content-Disposition: attachment; filename="properties.xml"');
+                    echo $xml;
+                    exit();
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Unsupported format']);
+                    exit();
+                }
+            } else {
+                header('Location: ' . URLROOT . '/users/login');
+                exit();
+            }
+        } else {
+            header('Location: ' . URLROOT . '/dashboard');
+            exit();
+        }
+    }
+
     public function delete($id) {
         if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
             // Get token from header or cookie
