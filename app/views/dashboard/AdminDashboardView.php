@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - CAM Real Estate</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/style.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/dashboard.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/admin-dashboard.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/admin-dashboard.css">
 </head>
 <body>
     <header id="navbar">
@@ -95,6 +95,6 @@
         // Inject URL root for API calls
         window.urlRoot = '<?php echo URLROOT; ?>';
     </script>
-    <script src="<?php echo URLROOT; ?>/public/assets/admin-dashboard.js"></script>
+    <script src="<?php echo URLROOT; ?>/public/assets/js/admin-dashboard.js"></script>
 </body>
 </html>

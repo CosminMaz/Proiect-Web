@@ -12,9 +12,9 @@ If the user is authenticated and the token is valid, it displays the dashboard p
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - CAM Real Estate</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/style.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/register.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/register.css">
 </head>
 <body>
     <header id="navbar">
@@ -62,6 +62,6 @@ If the user is authenticated and the token is valid, it displays the dashboard p
         </form>
     </div>
 
-    <script src="<?php echo URLROOT; ?>/public/assets/script.js"></script>
+    <script src="<?php echo URLROOT; ?>/public/assets/js/script.js"></script>
 </body>
 </html>

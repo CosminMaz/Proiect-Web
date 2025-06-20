@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CAM Real Estate</title>
-        <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/style.css">
+        <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/style.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     </head>
     <body>
@@ -21,51 +21,6 @@
             <h1>Locuința ta de vis te așteaptă</h1>
             <p>Descoperă cele mai bune proprietăți din oraș, cu filtre inteligente și o hartă interactivă modernă.</p>
             <a href="<?php echo URLROOT; ?>/users/login">Explorează acum</a>
-        </section>
-
-        <section class="apartments">
-            <h2 class="titlu-chirii">Chirii disponibile</h2>
-            <div class="apartment-list">
-                <div class="apartment-card">
-                    <img src="<?php echo URLROOT; ?>/public/assets/photos/chirii/pexels-sami-aksu-48867324-10864449.jpg" alt="apartament">
-                    <h3>Garsonieră Modernă</h3>
-                    <p>Zona Centrală • 35 m² • 450 €/lună</p>
-                    <button>Vezi detalii</button>
-                </div>
-                <div class="apartment-card">
-                    <img src="<?php echo URLROOT; ?>/public/assets/photos/chirii/pexels-tima-miroshnichenko-6827340.jpg" alt="apartment">
-                    <h3>2 Camere Luminoase</h3>
-                    <p>Cartier Verde • 60 m² • 600 €/lună</p>
-                    <button>Vezi detalii</button>
-                </div>
-                <div class="apartment-card">
-                    <img src="<?php echo URLROOT; ?>/public/assets/photos/chirii/pexels-sami-aksu-48867324-10864449.jpg" alt="apartament">
-                    <h3>Studio Elegant</h3>
-                    <p>Zona Universitate • 28 m² • 400 €/lună</p>
-                    <button>Vezi detalii</button>
-                </div>
-
-                <div class="apartment-card">
-                    <img src="<?php echo URLROOT; ?>/public/assets/photos/chirii/pexels-tima-miroshnichenko-6827340.jpg" alt="apartament">
-                    <h3>3 Camere Mobilate</h3>
-                    <p>Tineretului • 80 m² • 750 €/lună</p>
-                    <button>Vezi detalii</button>
-                </div>
-
-                <div class="apartment-card">
-                    <img src="<?php echo URLROOT; ?>/public/assets/photos/chirii/pexels-andrew-7932264.jpg" alt="apartament">
-                    <h3>Duplex Spațios</h3>
-                    <p>Zona Nord • 120 m² • 1.200 €/lună</p>
-                    <button>Vezi detalii</button>
-                </div>
-
-                <div class="apartment-card">
-                    <img src="<?php echo URLROOT; ?>/public/assets/photos/chirii/pexels-arina-krasnikova-5712530.jpg" alt="apartament">
-                    <h3>Loft cu Terasă</h3>
-                    <p>Floreasca • 95 m² • 950 €/lună</p>
-                    <button>Vezi detalii</button>
-                </div>
-            </div>
         </section>
 
         <footer class="site-footer">
@@ -101,6 +56,6 @@
             </div>
         </footer>
 
-        <script src="<?php echo URLROOT; ?>/public/assets/script.js"></script>
+        <script src="<?php echo URLROOT; ?>/public/assets/js/script.js"></script>
     </body>
-</html> 
+</html>
