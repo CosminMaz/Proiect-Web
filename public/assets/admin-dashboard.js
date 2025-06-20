@@ -21,7 +21,6 @@ if (token) {
 
 // OpenStreetMap + Leaflet map cu marcaje pentru proprietăți
 document.addEventListener('DOMContentLoaded', function() {
-    // Properties data should be injected by PHP in the HTML script tag
     var properties = window.propertiesData || [];
     var map;
     function addMarkers(map, properties) {
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .bindPopup('Locația ta curentă').openPopup();
             addMarkers(map, properties);
         }, function(error) {
-            map = L.map('map').setView([45.9432, 24.9668], 6); // România
+            map = L.map('map').setView([45.9432, 24.9668], 6); // Romania
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap contributors'
@@ -53,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             addMarkers(map, properties);
         });
     } else {
-        map = L.map('map').setView([45.9432, 24.9668], 6); // România
+        map = L.map('map').setView([45.9432, 24.9668], 6); // Romania
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'

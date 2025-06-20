@@ -1,6 +1,6 @@
 <?php
 require_once 'app/helpers/jwt_helper.php';
-require_once 'app/helpers/flash_helper.php';
+
 
 class UsersController extends Controller {
     private $userModel;
@@ -66,7 +66,6 @@ class UsersController extends Controller {
             if(empty($data['email_err']) && empty($data['nume_err']) && empty($data['prenume_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
                 // Validated
                 if($this->userModel->register($data)) {
-                    flash('register_success', 'You are registered and can log in');
                     header('location: ' . URLROOT . '/users/login');
                     exit();
                 } else {

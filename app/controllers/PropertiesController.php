@@ -173,7 +173,7 @@ class PropertiesController extends Controller {
         header('Location: ' . URLROOT . '/properties/search');
         exit();
     }
-
+    //Make the xml file for exprot with the properties
     public function export($format = 'xml') {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             // Get token from header or cookie

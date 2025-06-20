@@ -8,105 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        .add-container {
-            max-width: 800px;
-            margin: 100px auto 40px;
-            padding: 20px;
-        }
-
-        .add-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .add-header h1 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .add-form {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #1d3557;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            border-color: #457b9d;
-            outline: none;
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .invalid-feedback {
-            color: #e63946;
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        .back-button {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 10px 20px;
-            border: 2px solid white;
-            border-radius: 10px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: all 0.3s;
-        }
-
-        .back-button:hover {
-            background: white;
-            color: #1d3557;
-        }
-
-        .submit-btn {
-            background: #457b9d;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.3s;
-            width: 100%;
-        }
-
-        .submit-btn:hover {
-            background: #1d3557;
-        }
-    </style>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/add-property.css">
 </head>
 <body>
     <header id="navbar">
@@ -189,48 +91,15 @@
                 <textarea name="risks" id="risks" placeholder="Introduceți riscurile, separate prin virgulă"><?php echo $data['risks']; ?></textarea>
             </div>
 
-            <button type="submit" class="submit-btn">Adaugă Proprietate</button>
-        </form>
-    </div>
+    <button type="submit" class="submit-btn">Adaugă Proprietate</button>
+</form>
+</div>
 
-    <script>
-        // Handle logout
-        document.getElementById('logoutBtn').addEventListener('click', async function(e) {
-            e.preventDefault();
-            
-            try {
-                const response = await fetch('<?php echo URLROOT; ?>/users/logout', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                });
-
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    // Clear local storage
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('jwt_token');
-                    
-                    // Clear any cookies
-                    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                    
-                    // Redirect to login page
-                    window.location.href = data.redirect;
-                } else {
-                    console.error('Logout failed:', data.message);
-                }
-            } catch (error) {
-                console.error('Error during logout:', error);
-                // Even if there's an error, try to clear storage and redirect
-                localStorage.removeItem('token');
-                localStorage.removeItem('jwt_token');
-                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                window.location.href = '<?php echo URLROOT; ?>/users/login';
-            }
-        });
-    </script>
+<script>
+    // Inject URL root for API calls
+    window.urlRoot = '<?php echo URLROOT; ?>';
+</script>
+<script src="<?php echo URLROOT; ?>/public/assets/auth-utils.js"></script>
+<script src="<?php echo URLROOT; ?>/public/assets/add-property.js"></script>
 </body>
-</html> 
+</html>
