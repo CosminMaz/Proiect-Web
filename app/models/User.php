@@ -21,6 +21,13 @@ class User {
         return false;
     }
 
+    public function getUserRole($userId) {
+        $this->db->query('SELECT role FROM users WHERE id = :id');
+        $this->db->bind(':id', $userId);
+        $row = $this->db->single();
+        return $row ? $row->role : 'user';
+    }
+
     public function register($data) {
         $this->db->query('INSERT INTO users (nume, prenume, email, password) VALUES(:nume, :prenume, :email, :password)');
         $this->db->bind(':nume', $data['nume']);
@@ -47,4 +54,4 @@ class User {
             return false;
         }
     }
-} 
+}

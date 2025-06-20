@@ -61,10 +61,9 @@ class Property {
         }
     }
 
-    public function deleteProperty($id, $user_id) {
-        $this->db->query('DELETE FROM properties WHERE id = :id AND user_id = :user_id');
+    public function deleteProperty($id) {
+        $this->db->query('DELETE FROM properties WHERE id = :id');
         $this->db->bind(':id', $id);
-        $this->db->bind(':user_id', $user_id);
 
         if($this->db->execute()) {
             return true;

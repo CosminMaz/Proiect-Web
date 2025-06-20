@@ -167,4 +167,30 @@ class PropertiesController extends Controller {
             $this->view('properties/AddView', $data);
         }
     }
-} 
+
+    public function delete($id) {
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            // Get token from header or cookie
+            $token = JwtHelper::getTokenFromHeader();
+            if (!$token && isset($_COOKIE['token'])) {
+                $token = $_COOKIE['token'];
+            }
+            $decoded = JwtHelper::validateToken($token);
+
+            // Check if user is admin
+            if ($decoded && isset($decoded->user->role) && $decoded->user->role === 'admin') {
+                if ($this->propertyModel->deleteProperty($id)) {
+                    echo json_encode(['status' => 'success', 'message' => 'Property deleted successfully']);
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Failed to delete property']);
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Unauthorized access']);
+            }
+            exit();
+        } else {
+            header('Location: ' . URLROOT . '/dashboard');
+            exit();
+        }
+    }
+}
