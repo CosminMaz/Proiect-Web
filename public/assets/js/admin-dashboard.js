@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${user.id}</td>
                     <td>${user.nume}</td>
                     <td>${user.email}</td>
-                    <td>${user.rol}</td>
+                    <td>${user.role}</td>
                 </tr>`;
             });
         });
