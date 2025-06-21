@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - CAM Real Estate</title>
-    <link rel="stylesheet" href="{URLROOT}/public/assets/css/style.css">
+    <link rel="stylesheet" href="/TW/Proiect-Web/public/assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{URLROOT}/public/assets/css/dashboard.css">
+    <link rel="stylesheet" href="/TW/Proiect-Web/public/assets/css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="{URLROOT}/public/assets/css/admin-dashboard.css">
+    <link rel="stylesheet" href="/TW/Proiect-Web/public/assets/css/admin-dashboard.css">
 </head>
 <body>
     <header id="navbar">
@@ -25,13 +25,13 @@
         <div class="greeting">Salutare, Admin {USER_NAME}</div>
         
         <div class="dashboard-actions">
-            <a href="{URLROOT}/properties/add" class="action-button">
+            <a href="/TW/Proiect-Web/properties/add" class="action-button">
                 <i class="fas fa-plus"></i> Adaugă Proprietate
             </a>
-            <a href="{URLROOT}/properties/search" class="action-button">
+            <a href="/TW/Proiect-Web/properties/search" class="action-button">
                 <i class="fas fa-search"></i> Caută Proprietăți
             </a>
-            <a href="{URLROOT}/properties/export/xml" class="action-button">
+            <a href="/TW/Proiect-Web/properties/export/xml" class="action-button">
                 <i class="fas fa-file-export"></i> Exportă Proprietăți XML
             </a>
         </div>
@@ -77,8 +77,8 @@
         // Inject properties data for use in external JS file
         window.propertiesData = {PROPERTIES_DATA};
         // Inject URL root for API calls
-        window.urlRoot = '{URLROOT}';
+        window.urlRoot = '/TW/Proiect-Web';
     </script>
-    <script src="{URLROOT}/public/assets/js/admin-dashboard.js"></script>
+    <script src="/TW/Proiect-Web/public/assets/js/admin-dashboard.js"></script>
 </body>
 </html>
