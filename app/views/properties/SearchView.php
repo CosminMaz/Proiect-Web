@@ -1,66 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caută Proprietăți - CAM Real Estate</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/assets/css/search-property.css">
-</head>
-<body>
-    <header id="navbar">
-        <div class="logo">CAM Real Estate</div>
-        <nav>
-            <ul>
-                <li><a href="<?php echo URLROOT; ?>/dashboard">Dashboard</a></li>
-                <li><a href="#" id="logoutBtn">Deconectare</a></li>
-            </ul>
-        </nav>
-    </header>
+<?php
+// Load the HTML template
+$templatePath = __DIR__ . '/SearchPropertyTemplate.html';
+$htmlContent = file_get_contents($templatePath);
 
-    <div class="search-container">
-        <div class="search-header">
-            <h1>Caută Proprietăți</h1>
-            <a href="<?php echo URLROOT; ?>/dashboard" class="back-button">
-                <i class="fas fa-arrow-left"></i> Înapoi la Dashboard
-            </a>
-        </div>
+// Replace placeholders with dynamic data
+$htmlContent = str_replace('/TW/Proiect-Web', URLROOT, $htmlContent);
 
-    <div class="properties-grid">
-        <?php if(isset($data['properties']) && !empty($data['properties'])) : ?>
-            <?php foreach($data['properties'] as $property) : ?>
-                <div class="property-card">
-                    <img src="<?php echo URLROOT; ?>/public/assets/photos/chirii/pexels-sami-aksu-48867324-10864449.jpg" alt="<?php echo htmlspecialchars($property->title); ?>" class="property-image">
-                    <div class="property-info">
-                        <span class="property-type"><?php echo htmlspecialchars($property->status); ?></span>
-                        <h3><?php echo htmlspecialchars($property->title); ?></h3>
-                        <p><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars($property->latitude . ', ' . $property->longitude); ?></p>
-                        <p><i class="fas fa-ruler-combined"></i> <?php echo htmlspecialchars($property->suprafata); ?> m²</p>
-                        <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($property->contact); ?></p>
-                        <p class="property-price"><?php echo htmlspecialchars($property->price); ?> €</p>
-                        <?php if(!empty($property->facilities)) : ?>
-                            <p><i class="fas fa-check-circle"></i> Facilități: <?php echo htmlspecialchars($property->facilities); ?></p>
-                        <?php endif; ?>
-                        <?php if(!empty($property->risks)) : ?>
-                            <p><i class="fas fa-exclamation-triangle"></i> Riscuri: <?php echo htmlspecialchars($property->risks); ?></p>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <p style="color: white; text-align: center; grid-column: 1 / -1;">Nu există proprietăți disponibile.</p>
-        <?php endif; ?>
-    </div>
-</div>
+// Generate properties content
+$propertiesContent = '';
+if (isset($data['properties']) && !empty($data['properties'])) {
+    foreach ($data['properties'] as $property) {
+        $propertiesContent .= '<div class="property-card">';
+        $propertiesContent .= '<img src="' . URLROOT . '/public/assets/photos/chirii/pexels-sami-aksu-48867324-10864449.jpg" alt="' . htmlspecialchars($property->title) . '" class="property-image">';
+        $propertiesContent .= '<div class="property-info">';
+        $propertiesContent .= '<span class="property-type">' . htmlspecialchars($property->status) . '</span>';
+        $propertiesContent .= '<h3>' . htmlspecialchars($property->title) . '</h3>';
+        $propertiesContent .= '<p><i class="fas fa-map-marker-alt"></i> ' . htmlspecialchars($property->latitude . ', ' . $property->longitude) . '</p>';
+        $propertiesContent .= '<p><i class="fas fa-ruler-combined"></i> ' . htmlspecialchars($property->suprafata) . ' m²</p>';
+        $propertiesContent .= '<p><i class="fas fa-phone"></i> ' . htmlspecialchars($property->contact) . '</p>';
+        $propertiesContent .= '<p class="property-price">' . htmlspecialchars($property->price) . ' €</p>';
+        if (!empty($property->facilities)) {
+            $propertiesContent .= '<p><i class="fas fa-check-circle"></i> Facilități: ' . htmlspecialchars($property->facilities) . '</p>';
+        }
+        if (!empty($property->risks)) {
+            $propertiesContent .= '<p><i class="fas fa-exclamation-triangle"></i> Riscuri: ' . htmlspecialchars($property->risks) . '</p>';
+        }
+        $propertiesContent .= '</div>';
+        $propertiesContent .= '</div>';
+    }
+} else {
+    $propertiesContent = '<p style="color: white; text-align: center; grid-column: 1 / -1;">Nu există proprietăți disponibile.</p>';
+}
+$htmlContent = str_replace('{PROPERTIES_CONTENT}', $propertiesContent, $htmlContent);
 
-<script>
-    // Inject URL root for API calls
-    window.urlRoot = '<?php echo URLROOT; ?>';
-</script>
-<script src="<?php echo URLROOT; ?>/public/assets/js/auth-utils.js"></script>
-<script src="<?php echo URLROOT; ?>/public/assets/js/search-property.js"></script>
-</body>
-</html>
+// Output the final HTML
+echo $htmlContent;
+?>
