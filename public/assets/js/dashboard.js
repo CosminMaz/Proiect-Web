@@ -1,4 +1,4 @@
-// OpenStreetMap + Leaflet map cu marcaje pentru proprietăți
+// OpenStreetMap + Leaflet map with property markers
 document.addEventListener('DOMContentLoaded', function() {
     var properties = window.propertiesData || [];
     var map;
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
             L.marker([lat, lng]).addTo(map)
-                .bindPopup('Locația ta curentă').openPopup();
+                .bindPopup('Your current location').openPopup();
             addMarkers(map, properties);
         }, function(error) {
             map = L.map('map').setView([45.9432, 24.9668], 6); 

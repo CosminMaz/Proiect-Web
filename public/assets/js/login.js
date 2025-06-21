@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (data.status === 'success') {
                 console.log('Login successful, storing token and redirecting');
-                localStorage.removeItem('jwt_token'); // Remove old key if it exists
                 localStorage.setItem('token', data.token);
                 
                 // Get user's location

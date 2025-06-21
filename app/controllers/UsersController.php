@@ -220,4 +220,14 @@ class UsersController extends Controller {
         ]);
         exit();
     }
-} 
+
+    // Returns all users as JSON for AJAX
+    public function all() {
+        $users = $this->userModel->getAllUsers();
+        if (isset($_GET['json'])) {
+            header('Content-Type: application/json');
+            echo json_encode($users);
+            exit;
+        }
+    }
+}

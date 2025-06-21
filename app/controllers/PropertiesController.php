@@ -247,4 +247,14 @@ class PropertiesController extends Controller {
             exit();
         }
     }
+    // Returns all properties as JSON for AJAX
+    public function all() {
+        $properties = $this->propertyModel->getAllProperties();
+        if (isset($_GET['json'])) {
+            header('Content-Type: application/json');
+            echo json_encode($properties);
+            exit;
+        }
+        // You can also add a view if you want to display in the browser
+    }
 }

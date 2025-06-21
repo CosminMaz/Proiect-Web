@@ -48,8 +48,8 @@
                         <th>Acțiune</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {PROPERTIES_TABLE}
+                <tbody id="properties-table-body">
+                    <!-- Rândurile de proprietăți vor fi inserate dinamic cu JavaScript -->
                 </tbody>
             </table>
         </div>
@@ -65,20 +65,14 @@
                         <th>Rol</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {USERS_TABLE}
+                <tbody id="users-table-body">
+                    <!-- Rândurile de utilizatori vor fi inserate dinamic cu JavaScript -->
                 </tbody>
             </table>
         </div>
     </div>
     <div id="map" style="width: 100%; height: 400px; margin: 30px auto 0 auto; max-width: 900px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);;"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // Inject properties data for use in external JS file
-        window.propertiesData = {PROPERTIES_DATA};
-        // Inject URL root for API calls
-        window.urlRoot = '/TW/Proiect-Web';
-    </script>
     <script src="/TW/Proiect-Web/public/assets/js/admin-dashboard.js"></script>
 </body>
 </html>

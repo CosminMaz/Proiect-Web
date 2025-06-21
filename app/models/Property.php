@@ -77,7 +77,7 @@ class Property {
         return $this->db->resultSet();
     }
     
-    // Returnează toate proprietățile cu latitudine și longitudine
+    // Returns all properties with latitude and longitude
     public function getAllPropertiesLatLng() {
         $this->db->query('SELECT id, title, latitude, longitude FROM properties');
         return $this->db->resultSet();

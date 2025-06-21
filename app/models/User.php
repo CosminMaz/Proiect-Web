@@ -54,4 +54,10 @@ class User {
             return false;
         }
     }
+
+    // Returns all users from the database
+    public function getAllUsers() {
+        $this->db->query('SELECT id, nume, prenume, email, role FROM users');
+        return $this->db->resultSet();
+    }
 }

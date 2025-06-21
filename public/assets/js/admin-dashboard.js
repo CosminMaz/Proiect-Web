@@ -19,7 +19,7 @@ if (token) {
     };
 }
 
-// OpenStreetMap + Leaflet map cu marcaje pentru proprietăți
+// OpenStreetMap + Leaflet map with property markers
 document.addEventListener('DOMContentLoaded', function() {
     var properties = window.propertiesData || [];
     var map;
@@ -59,6 +59,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }).addTo(map);
         addMarkers(map, properties);
     }
+
+    // Fetch all properties and add markers to map
+    fetch('/TW/Proiect-Web/properties/all?json=1')
+        .then(response => response.json())
+        .then(properties => {
+            if (typeof map === 'undefined') return;
+            properties.forEach(function(prop) {
+                if (prop.latitude && prop.longitude) {
+                    L.marker([prop.latitude, prop.longitude]).addTo(map)
+                        .bindPopup('<b>' + prop.title + '</b>');
+                }
+            });
+        });
 });
 
 // Get users location when dashboard loads
@@ -103,8 +116,6 @@ document.getElementById('logoutBtn').addEventListener('click', async function(e)
         if (data.status === 'success') {
             // Clear local storage
             localStorage.removeItem('token');
-            localStorage.removeItem('jwt_token');
-            
             // Clear any cookies
             document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             
@@ -116,7 +127,6 @@ document.getElementById('logoutBtn').addEventListener('click', async function(e)
     } catch (error) {
         console.error('Error during logout:', error);
         localStorage.removeItem('token');
-        localStorage.removeItem('jwt_token');
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         // Fallback redirect in case of error
         const urlRoot = window.urlRoot || '';
@@ -163,3 +173,60 @@ async function deleteProperty(propertyId) {
         }
     }
 }
+
+// Script for admin dashboard: dynamic loading of properties and users, property deletion
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch properties
+    fetch('/TW/Proiect-Web/properties/all?json=1')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('properties-table-body');
+            tbody.innerHTML = '';
+            data.forEach(prop => {
+                tbody.innerHTML += `<tr>
+                    <td>${prop.id}</td>
+                    <td>${prop.title}</td>
+                    <td>${prop.description}</td>
+                    <td><button class="delete-property-btn" data-id="${prop.id}">Șterge</button></td>
+                </tr>`;
+            });
+            // Add event listener for delete buttons
+            tbody.querySelectorAll('.delete-property-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if(confirm('Sigur vrei să ștergi această proprietate?')) {
+                        fetch(`/TW/Proiect-Web/properties/delete/${this.dataset.id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if(result.status === 'success') {
+                                this.closest('tr').remove();
+                            } else {
+                                alert(result.message || 'Eroare la ștergere!');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    // Fetch users
+    fetch('/TW/Proiect-Web/users/all?json=1')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '';
+            data.forEach(user => {
+                tbody.innerHTML += `<tr>
+                    <td>${user.id}</td>
+                    <td>${user.nume}</td>
+                    <td>${user.email}</td>
+                    <td>${user.rol}</td>
+                </tr>`;
+            });
+        });
+    window.urlRoot = '/TW/Proiect-Web';
+});

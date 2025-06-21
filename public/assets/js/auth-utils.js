@@ -45,11 +45,8 @@ function handleLogout(e) {
             if (data.status === 'success') {
                 // Clear local storage
                 localStorage.removeItem('token');
-                localStorage.removeItem('jwt_token');
-                
                 // Clear any cookies
                 document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                
                 // Redirect to login page
                 window.location.href = data.redirect;
             } else {
@@ -60,7 +57,6 @@ function handleLogout(e) {
             console.error('Error during logout:', error);
             // Even if there's an error, try to clear storage and redirect
             localStorage.removeItem('token');
-            localStorage.removeItem('jwt_token');
             document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             // Fallback redirect in case of error
             const urlRoot = window.urlRoot || '';
@@ -70,7 +66,6 @@ function handleLogout(e) {
         console.error('Error during logout:', error);
         // Even if there's an error, try to clear storage and redirect
         localStorage.removeItem('token');
-        localStorage.removeItem('jwt_token');
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         // Fallback redirect in case of error
         const urlRoot = window.urlRoot || '';
