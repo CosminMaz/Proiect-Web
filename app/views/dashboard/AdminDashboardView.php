@@ -24,11 +24,16 @@ $htmlContent = str_replace('{PROPERTIES_TABLE}', $propertiesTable, $htmlContent)
 // Generate users table content
 $usersTable = '';
 foreach ($data['users'] as $user) {
+    $id = is_object($user) ? $user->id : $user['id'];
+    $nume = is_object($user) ? $user->nume : $user['nume'];
+    $prenume = is_object($user) ? $user->prenume : $user['prenume'];
+    $email = is_object($user) ? $user->email : $user['email'];
+    $role = is_object($user) ? $user->role : (isset($user['role']) ? $user['role'] : '');
     $usersTable .= '<tr>';
-    $usersTable .= '<td>' . htmlspecialchars($user->id) . '</td>';
-    $usersTable .= '<td>' . htmlspecialchars($user->nume . ' ' . $user->prenume) . '</td>';
-    $usersTable .= '<td>' . htmlspecialchars($user->email) . '</td>';
-    $usersTable .= '<td>' . htmlspecialchars($user->role) . '</td>';
+    $usersTable .= '<td>' . htmlspecialchars($id) . '</td>';
+    $usersTable .= '<td>' . htmlspecialchars($nume . ' ' . $prenume) . '</td>';
+    $usersTable .= '<td>' . htmlspecialchars($email) . '</td>';
+    $usersTable .= '<td>' . htmlspecialchars($role) . '</td>';
     $usersTable .= '</tr>';
 }
 $htmlContent = str_replace('{USERS_TABLE}', $usersTable, $htmlContent);

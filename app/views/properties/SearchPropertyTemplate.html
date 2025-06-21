@@ -29,6 +29,23 @@
             </a>
         </div>
 
+        <form method="get" class="filter-form" style="margin-bottom: 20px; display: flex; gap: 20px; align-items: center;">
+            <label for="status" style="color: white;">Tip tranzacție:</label>
+            <select name="status" id="status">
+                <option value="">Toate</option>
+                <option value="vanzare">Vânzare</option>
+                <option value="inchiriere">Închiriere</option>
+            </select>
+            <label for="min_price" style="color: white;">Preț minim:</label>
+            <input type="number" name="min_price" id="min_price" min="0" value="" style="width: 100px;">
+            <label for="max_price" style="color: white;">Preț maxim:</label>
+            <input type="number" name="max_price" id="max_price" min="0" value="" style="width: 100px;">
+            <label for="min_suprafata" style="color: white;">Suprafață minimă:</label>
+            <input type="number" name="min_suprafata" id="min_suprafata" min="0" value="" style="width: 100px;">
+            <button type="submit" style="padding: 6px 18px; border-radius: 5px; border: none; background: #2d89ef; color: white; font-weight: 500; cursor: pointer;">Filtrare</button>
+            <button type="button" onclick="window.location.href=window.location.pathname" style="padding: 6px 18px; border-radius: 5px; border: none; background: #e74c3c; color: white; font-weight: 500; cursor: pointer;">Resetează</button>
+        </form>
+
         <div class="properties-grid">
             {PROPERTIES_CONTENT}
         </div>

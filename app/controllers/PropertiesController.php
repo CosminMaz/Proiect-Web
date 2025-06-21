@@ -31,12 +31,22 @@ class PropertiesController extends Controller {
     }
 
     public function search() {
-        // Get all properties
-        $properties = $this->propertyModel->getAllProperties();
-        
+        // Preia filtrele din GET
+        $status = isset($_GET['status']) ? $_GET['status'] : '';
+        $min_price = isset($_GET['min_price']) && $_GET['min_price'] !== '' ? floatval($_GET['min_price']) : null;
+        $max_price = isset($_GET['max_price']) && $_GET['max_price'] !== '' ? floatval($_GET['max_price']) : null;
+        $min_suprafata = isset($_GET['min_suprafata']) && $_GET['min_suprafata'] !== '' ? intval($_GET['min_suprafata']) : null;
+
+        // Obține proprietățile filtrate
+        $properties = $this->propertyModel->getFilteredProperties($status, $min_price, $max_price, $min_suprafata);
+
         $data = [
             'title' => 'Caută Proprietăți',
-            'properties' => $properties
+            'properties' => $properties,
+            'status' => $status,
+            'min_price' => $min_price,
+            'max_price' => $max_price,
+            'min_suprafata' => $min_suprafata
         ];
 
         $this->view('properties/SearchView', $data);

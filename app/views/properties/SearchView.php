@@ -6,6 +6,21 @@ $htmlContent = file_get_contents($templatePath);
 // Replace placeholders with dynamic data
 $htmlContent = str_replace('/TW/Proiect-Web', URLROOT, $htmlContent);
 
+// Generează opțiunile pentru status cu selected corect
+$status = isset($_GET['status']) ? $_GET['status'] : '';
+$statusOptions = '<option value="">Toate</option>';
+$statusOptions .= '<option value="vanzare"' . ($status === 'vanzare' ? ' selected="selected"' : '') . '>Vânzare</option>';
+$statusOptions .= '<option value="inchiriere"' . ($status === 'inchiriere' ? ' selected="selected"' : '') . '>Închiriere</option>';
+$htmlContent = preg_replace('/<select name="status" id="status">.*?<\/select>/s', '<select name="status" id="status">' . $statusOptions . '</select>', $htmlContent);
+
+// Set min/max price and min suprafata values direct in input fields
+$min_price = isset($_GET['min_price']) ? htmlspecialchars($_GET['min_price']) : '';
+$max_price = isset($_GET['max_price']) ? htmlspecialchars($_GET['max_price']) : '';
+$min_suprafata = isset($_GET['min_suprafata']) ? htmlspecialchars($_GET['min_suprafata']) : '';
+$htmlContent = preg_replace('/<input type="number" name="min_price"([^>]*)value=""/', '<input type="number" name="min_price"$1value="' . $min_price . '"', $htmlContent);
+$htmlContent = preg_replace('/<input type="number" name="max_price"([^>]*)value=""/', '<input type="number" name="max_price"$1value="' . $max_price . '"', $htmlContent);
+$htmlContent = preg_replace('/<input type="number" name="min_suprafata"([^>]*)value=""/', '<input type="number" name="min_suprafata"$1value="' . $min_suprafata . '"', $htmlContent);
+
 // Generate properties content
 $propertiesContent = '';
 if (isset($data['properties']) && !empty($data['properties'])) {

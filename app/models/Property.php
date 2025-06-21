@@ -83,4 +83,36 @@ class Property {
         return $this->db->resultSet();
     }
 
+    public function getAllPropertiesByStatus($status) {
+        $this->db->query('SELECT * FROM properties WHERE status = :status');
+        $this->db->bind(':status', $status);
+        return $this->db->resultSet();
+    }
+
+    public function getFilteredProperties($status = '', $min_price = null, $max_price = null, $min_suprafata = null) {
+        $query = 'SELECT * FROM properties WHERE 1=1';
+        $params = [];
+        if ($status === 'vanzare' || $status === 'inchiriere') {
+            $query .= ' AND status = :status';
+            $params[':status'] = $status;
+        }
+        if ($min_price !== null) {
+            $query .= ' AND price >= :min_price';
+            $params[':min_price'] = $min_price;
+        }
+        if ($max_price !== null) {
+            $query .= ' AND price <= :max_price';
+            $params[':max_price'] = $max_price;
+        }
+        if ($min_suprafata !== null) {
+            $query .= ' AND suprafata >= :min_suprafata';
+            $params[':min_suprafata'] = $min_suprafata;
+        }
+        $this->db->query($query);
+        foreach ($params as $key => $value) {
+            $this->db->bind($key, $value);
+        }
+        return $this->db->resultSet();
+    }
+
 }
