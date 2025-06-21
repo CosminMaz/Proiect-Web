@@ -147,13 +147,48 @@
     background: #c1121f;
 }
 
+@media (max-width: 992px) {
+    .dashboard-container {
+        padding: 15px;
+    }
+    
+    .property-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
     .dashboard-actions {
         flex-direction: column;
+        gap: 20px;
     }
     
     .action-button {
         width: 100%;
         text-align: center;
+    }
+    
+    .greeting {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .property-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .greeting {
+        font-size: 1.5rem;
+    }
+    
+    .action-button {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    #map {
+        height: 300px;
+        margin: 20px auto 0;
     }
 }

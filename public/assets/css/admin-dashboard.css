@@ -37,3 +37,31 @@
     color: #cc0000;
     text-decoration: underline;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-section {
+        padding: 15px;
+    }
+    
+    .admin-table th, .admin-table td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .admin-table th, .admin-table td {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+}
